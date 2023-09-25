@@ -1,0 +1,235 @@
+#include<iostream>
+using namespace std;
+struct node
+{
+	int data;
+	struct node *link;
+};
+void create(struct node * &head, int data);
+void display(struct node * &head);
+void insert_at_start(struct node * &head, int data);
+void insert_middle(struct node * &head, int pos, int data);
+int count(struct node * &head);
+void del_beg(struct node * &head);
+void del_end(struct node * &head);
+void del_pos(struct node * &head, int pos);
+void asd(struct node * &head);
+int main()
+{
+	struct node *head=NULL;
+	int inp, len, choice, pos;
+	while(true)
+	{
+		cout<<"Select an Option\n\n1. Create\n2. Insert At Start\n3. Insert After\n4. Insert End\n5. Display\n6. Delete Beginning\n7. Delete End\n8. Delete Position\n/>";
+		cin>>choice;
+		switch(choice)
+		{
+			case 1:
+				cout<<"Enter the size: ";
+				cin>>len;
+				cout<<"Enter elements one by one"<<endl;
+				for(int i=0; i<len; i++)
+				{
+					cin>>inp;
+					create(head, inp);
+				}
+				break;
+			case 2:
+				cout<<"Enter the element: ";
+				cin>>inp;
+				insert_at_start(head, inp);
+				break;
+			case 3:
+				cout<<"Enter the pos: ";
+				cin>>pos;
+				cout<<"Enter the element: ";
+				cin>>inp;
+				insert_middle(head, pos, inp);
+				break;
+			case 4:
+				cout<<"Enter the element: ";
+				cin>>inp;
+				create(head, inp);
+				break;
+			case 5:
+				display(head);
+				break;
+			case 6:
+				del_beg(head);
+				break;
+			case 7:
+				del_end(head);
+				break;
+			case 8:
+				cout<<"Enter the position: ";
+				cin>>pos;
+				del_pos(head, pos);
+				break;
+			default:
+				cout<<"Option does not exsist"<<endl;
+				
+		}
+	}
+	/*display(head);
+	insert_at_start(head, 20);
+	create(head, 100);
+	cout<<"INSERT AT START\n\n";
+	display(head);
+	cout<<"\nTotal Nodes: "<<count(head)<<endl;
+	cout<<"INSERT AT 3rd pos\n\n";
+	insert_middle(head, 3, 200);
+	del_beg(head);
+	del_end(head);*/
+	//del_pos(head, 4);
+	asd(head);
+	display(head);
+	return 0;
+}
+void create(struct node * &head, int data)
+{
+	struct node *ptr, *current;
+	ptr=new node();
+	ptr->data=data;
+	ptr->link=NULL;
+	if(head==NULL)
+	{
+		head=ptr;
+	}
+	else
+	{
+		current=head;
+		while(current->link != NULL)
+		{
+			current=current->link;
+		}
+		current->link=ptr;
+	}
+}
+void display(struct node * &head)
+{
+	struct node *ptr=head;
+	while(ptr != NULL)
+	{
+		cout<<ptr->data<<endl;
+		ptr=ptr->link;
+	}
+}
+void insert_at_start(struct node * &head, int data)
+{
+	struct node *current, * ptr=new node();
+	ptr->data=data;
+	ptr->link=NULL;
+	if(head==NULL)
+	{
+		head=ptr;
+	}
+	else
+	{
+		ptr->link=head;
+		head=ptr;
+	}
+}
+int count(struct node * &head)
+{
+	int counter=0;
+	struct node *current=head;
+	while(current != NULL)
+	{
+		counter++;
+		current=current->link;
+	}
+	return counter;
+}
+void insert_middle(struct node * &head, int pos, int data)
+{
+	int counter=0;
+	struct node *ptr, *temp;
+	ptr=new node();
+	ptr->data=data;
+	ptr->link=NULL;
+	temp=head;
+	for(int i=0; i<pos-1; i++)
+	{
+		if(temp->link == NULL)
+		{
+			cout<<"position out of bound"<<endl;
+			return;
+		}
+		temp=temp->link;
+	}
+	ptr->link=temp->link;
+	temp->link=ptr;
+}
+void del_beg(struct node * &head)
+{
+	struct node *temp;
+	if(head==NULL)
+	{
+		cout<<"List is empty"<<endl;
+	}
+	else
+	{
+		temp=head;
+		head=head->link;
+		delete(temp);
+	}
+}
+void del_end(struct node * &head)
+{
+	struct node *temp=head, *q;
+	if(temp==NULL)
+	{
+		cout<<"List is empty"<<endl;
+	}
+	else
+	{
+		while(temp->link->link !=NULL)
+		{
+			temp=temp->link;
+		}
+		
+		q=temp;
+		temp=temp->link;
+		delete(temp);
+		q->link=NULL;
+	}
+}
+void del_pos(struct node * &head, int pos)
+{
+	struct node *temp=head, *q;
+	for(int i=1; i<pos-1; i++)
+	{
+		if(temp == NULL)
+		{
+			cout<<"Position out of out"<<endl;
+			return ;
+		}
+		else
+		{
+			temp=temp->link;
+		}
+	}
+	q=temp;
+	temp=temp->link;
+	q->link=temp->link;
+	delete(temp);	
+}
+void asd(struct node * &head)
+{
+	int data, c=count(head);
+	struct node *q;
+	for(int i=1; i<c; i++)
+	{
+		q=head;
+		for(int j=1; j<c; j++)
+		{
+			if(q->data>q->link->data)
+			{
+				data=q->data;
+				q->data=q->link->data;
+				q->link->data=data;
+			}
+			q=q->link;
+		}
+	}
+}
