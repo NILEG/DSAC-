@@ -1,76 +1,89 @@
 #include<iostream>
 #define max 10
 using namespace std;
-struct ret
-{
-	int top;
-	int bottom;
-};
 int arr[max];
 int top=-1;
 int bottom=max;
-void push(int data);
-struct ret pop();
+void push1(int data);
+int pop1();
+void push2(int data);
+int pop2();
 int main()
 {
-	struct ret dt;
-	push(1);
-	push(2);
-	push(3);
-	push(4);
-	push(5);
-	dt=pop();
-	cout<<dt.top<<" "<<dt.bottom<<endl;
-	dt=pop();
-	cout<<dt.top<<" "<<dt.bottom<<endl;
-	dt=pop();
-	cout<<dt.top<<" "<<dt.bottom<<endl;
-	dt=pop();
-	cout<<dt.top<<" "<<dt.bottom<<endl;
-	dt=pop();
-	cout<<dt.top<<" "<<dt.bottom<<endl;
-	dt=pop();
-	cout<<dt.top<<" "<<dt.bottom<<endl;
+	push2(1);
+	push1(10);//push 2
+	push2(2);
+	push2(3);
+	push2(4);
+	push2(5);
+	push2(6);
+	push2(7);
+	push2(8);
+	push2(9);
+	//push2(9);
+	cout<<pop2()<<endl;
+	cout<<pop2()<<endl;
+	cout<<pop2()<<endl;
+	cout<<pop2()<<endl;
+	cout<<pop2()<<endl;
+	cout<<pop2()<<endl;
+	cout<<pop2()<<endl;
+	cout<<pop2()<<endl;
+	cout<<pop2()<<endl;
+	cout<<pop1()<<endl;
 	return 0;
 }
-void push(int data)
+void push1(int data)
 {
-	if(max % 2 ==0)
+	if((top == max-1) || (top == bottom-1))
 	{
-		if(top == int(max/2)-1)
-		{
-			cout<<"Stack overflow"<<endl;
-			return ;
-		}
-		else
-		{
-			top++;
-			bottom--;
-			arr[top]=data;
-			arr[bottom]=data;
-		}
+		cout<<"Stack Overflow"<<endl;
+		return;
 	}
 	else
 	{
-		cout<<"Size is odd"<<endl;
+		top++;
+		arr[top]=data;
 	}
 }
-struct ret pop()
+int pop1()
 {
-	struct ret dt;
-	if(top == -1)
+	if(top==-1)
 	{
-		cout<<"Stack Underflow ";
-		dt.bottom=-1;
-		dt.top=-1;
-		return dt;
+		cout<<"Stack Underflow"<<endl;
+		return -1;
 	}
 	else
 	{
 		top--;
+		return arr[top+1];
+	}
+}
+void push2(int data)
+{
+	if((bottom == -1) || (bottom == top+1))
+	{
+		cout<<"Stack Overflow"<<endl;
+		return;
+	}
+	else
+	{
+		bottom--;
+		arr[bottom]=data;
+		
+	}
+}
+int pop2()
+{
+	if(bottom==(max))
+	{
+		cout<<"Stack Underflow"<<endl;
+		return -1;
+	}
+	else
+	{
 		bottom++;
-		dt.top=arr[top+1];
-		dt.bottom=arr[bottom-1];
-		return dt;
+		return arr[bottom-1];
+		
 	}
 }
