@@ -87,4 +87,4 @@ void control::display()
 		}while(q != rear->link);
 	}
 }
-//mussaratabdullah@gmail.com
+
