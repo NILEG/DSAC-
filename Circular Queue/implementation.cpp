@@ -87,4 +87,28 @@ void control::display()
 		}while(q != rear->link);
 	}
 }
-
+bool control::is_empty()
+{
+	if(front == NULL)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+void control::reverse()
+{
+	int data;
+	if(is_empty() == true)
+	{
+		return;
+	}
+	else
+	{
+		data=pop();
+		reverse();
+		push(data);
+	}
+}
