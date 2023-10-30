@@ -21,5 +21,7 @@ struct control
 	int dequeue_left();
 	int dequeue_right();
 	void display();
+	bool is_empty();
+	void reverse();
 };
 #endif
