@@ -19,5 +19,7 @@ struct control
 	void push(int data);
 	int pop();
 	void display();
+	void reverse();
+	bool is_empty();
 };
 #endif
