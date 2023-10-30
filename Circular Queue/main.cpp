@@ -12,17 +12,7 @@ int main()
 	c1.push(17);
 	c1.push(18);
 	c1.push(19);
-	c1.pop();
-	c1.pop();
-	c1.pop();
-	c1.pop();
-	c1.pop();
-	c1.pop();
-	c1.pop();
-	c1.pop();
-	c1.pop();
-	c1.pop();
-	c1.push(200);
-	c1.push(100);
+	c1.reverse();
 	c1.display();
+	return 0;
 }
