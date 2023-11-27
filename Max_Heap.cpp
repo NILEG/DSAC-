@@ -364,9 +364,15 @@ void case_c(node *&parent, node *&loc, node *&lastNode)
 		loc->right->parent=lastNode;
 	}
 	delete(loc);
-	//Check for swaping with Childs
-	swaping_to_balance(lastNode);
-	swaping_after_del(lastNode);
+	//Swapping with Parent
+	if(lastNode->parent->key>lastNode->key)
+	{
+		swaping_to_balance(lastNode);
+	}//Swapping with child
+	else
+	{
+		swaping_after_del(lastNode);
+	}
 }
 void del(int key)
 {
@@ -434,6 +440,6 @@ int main()
 	insert(38);
 	insert(14);
 	insert(67);
-	del(90);
+	del(12);
 	level_order_traversel();
 }
