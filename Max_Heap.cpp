@@ -243,6 +243,8 @@ void case_a(node *&parent, node *&loc, node *&lastNode)
 			parent->right = lastNode;
 		}
 		lastNode->parent=parent;
+		//Check for Swaping with parent
+		swaping_to_balance(lastNode);
 	}
 	delete(loc);
 }
@@ -362,6 +364,8 @@ void case_c(node *&parent, node *&loc, node *&lastNode)
 		loc->right->parent=lastNode;
 	}
 	delete(loc);
+	//Check for swaping with Childs
+	swaping_to_balance(lastNode);
 	swaping_after_del(lastNode);
 }
 void del(int key)
@@ -402,7 +406,7 @@ void inorder(node *ptr)
 int main()
 {
 	node *last_node=NULL, *loc=NULL;
-	insert(36);
+	/*insert(36);
 	insert(89);
 	insert(12);
 	insert(67);
@@ -413,9 +417,23 @@ int main()
 	insert(6);
 	insert(60);
 	insert(94);
-	insert(26);
+	insert(26);*/
 	//insert(3);
 	//inorder(root);
-	del(67);
+	insert(90);
+	insert(40);
+	insert(75);
+	insert(20);
+	insert(23);
+	insert(66);
+	insert(70);
+	insert(12);
+	insert(18);
+	insert(15);
+	insert(19);
+	insert(38);
+	insert(14);
+	insert(67);
+	del(90);
 	level_order_traversel();
 }
