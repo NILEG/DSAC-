@@ -1,5 +1,5 @@
 /*
-	Name: Min_Heap
+	Name: Huffman
 	Version: 0.1
 	Date: 02-12-2023
 	Author: @Umair-PC
