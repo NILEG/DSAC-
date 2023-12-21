@@ -1,5 +1,6 @@
 #include "graph.h"
 #include "queue.h"
+#include "stack.h"
 #include<iostream>
 using namespace std;
 void graph_control::insert_node(char ch, int index)
@@ -210,5 +211,40 @@ void graph_control::bfs(char v)
 			}
 			adj=adj->link;
 		}
+	}
+}
+void graph_control::dfs(char v)
+{
+	bool visited[20];
+	for(int i=0; i<20; i++)
+	{
+		visited[i]=false;
+	}
+	node *temp2=NULL, *temp3=NULL;
+	stk_control stk;
+	node *q=find(v);
+	stk.push(q);
+	while(stk.top != NULL)
+	{
+		temp2=stk.pop();
+		if(visited[temp2->index] == false)
+		{
+			cout<<temp2->name<<" , ";
+			visited[temp2->index]=true;
+		}
+		else
+			continue;
+		
+		edge *adj=temp2->adj;
+		while(adj != NULL)
+		{
+			temp3=find(adj->dest);
+			if(visited[temp3->index] == false)
+			{
+				stk.push(temp3);
+			}
+			adj=adj->link;
+		}
+		
 	}
 }

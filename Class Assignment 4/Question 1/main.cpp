@@ -24,6 +24,6 @@ int main()
 	c2.insert_edge('G', 'E');
 	c2.insert_edge('G', 'H');
 	c2.insert_edge('H', 'I');
-	//c2.display();
-	c2.bfs('A');
+	//c2.bfs('A');
+	c2.dfs('A');
 }

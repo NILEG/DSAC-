@@ -25,5 +25,6 @@ struct graph_control
 	void delnode_edge(char dest);
 	void display();
 	void bfs(char v);
+	void dfs(char v);
 };
 #endif
