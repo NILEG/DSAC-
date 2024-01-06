@@ -8,6 +8,7 @@
 #include<graphics.h>
 #include<string>
 #include<sstream>  
+#include<cstring>
 using namespace std;
 void control::swaping_to_balance(node *&ref)
 {
@@ -331,8 +332,6 @@ void control::make_huffman_tree()
 	node *ptr1;
 	node *ptr2;
 	node *temp;
-	//1. Show Introduction
-	introduction();
 	//2. Take Input
 	get_input();
 	//Ended
@@ -845,83 +844,11 @@ void control::introduction()
 		}
 	}
 	cleardevice();
-	/*
-	//Creating Tree
-		//Creating Lines
-		setcolor(YELLOW);
-		line(900, 900, 850, 980);
-		line(900, 900, 950, 980);
-		line(850, 820, 800, 900);
-		line(850, 820, 900, 900);
-		//Internel Circle
-		setcolor(WHITE);
-		setfillstyle(SOLID_FILL,RED);
-		circle(900, 900, 30);
-		floodfill(900,900,WHITE);
-		
-		setcolor(WHITE);
-		setfillstyle(SOLID_FILL,RED);
-		circle(850, 820, 30);
-		floodfill(850,820,WHITE);
-		//D Circle
-		setcolor(WHITE);
-		setfillstyle(SOLID_FILL,BLUE);
-		circle(850, 980, 30);
-		floodfill(850,980,WHITE);
-		//B Circle
-		setcolor(WHITE);
-		setfillstyle(SOLID_FILL,BLUE);
-		circle(950, 980, 30);
-		floodfill(950,980,WHITE);
-		//C Circle
-		setcolor(WHITE);
-		setfillstyle(SOLID_FILL,BLUE);
-		circle(800, 900, 30);
-		floodfill(800,900,WHITE);
-		//Putting Text
-		settextstyle(3, 0, 4);
-		setcolor(WHITE);
-		setbkcolor(RED);
-		outtextxy(890, 885, "6");
-		
-		settextstyle(3, 0, 4);
-		setcolor(WHITE);
-		setbkcolor(BLUE);
-		outtextxy(840, 965, "2");
-		
-		settextstyle(3, 0, 4);
-		setcolor(WHITE);
-		setbkcolor(BLUE);
-		outtextxy(940, 965, "4");
-		
-		settextstyle(3, 0, 4);
-		setcolor(WHITE);
-		setbkcolor(BLUE);
-		outtextxy(790, 885, "5");
-		
-		settextstyle(3, 0, 4);
-		setcolor(WHITE);
-		setbkcolor(RED);
-		outtextxy(830, 805, "11");
-	while(1)
-	{
-		while (!ismouseclick(WM_LBUTTONDOWN))
-		{
-			delay(100);
-		}
-		int x, y; 
-		getmouseclick(WM_LBUTTONDOWN, x, y);
-		//If User has clicked on next Button
-		int x1=getmaxx()-150, y1=getmaxy()-100, x2=getmaxx()-50, y2=getmaxy()-50;
-		if(x>x1 && x<x2 && y>y1 && y<y2)
-		{
-			break;
-		}
-	}*/
 }
 void control::get_input()
 {
 	string a, b;
+	cin.ignore();
 	cout<<"Enter the data: "<<endl;
 	getline(cin, a);
 	string temp="";
@@ -945,5 +872,352 @@ void control::get_input()
 		b=temp[i];
 		insert(main_root, count, b, NULL, NULL, 'm');
 		count=0;
+	}
+}
+void control::memory_view()
+{
+	//int level=get_huffman_height(main_root);
+	//create(main_root, x1, y1, x2, y2, level);
+	outtextxy(700, 20, "Memory Diagram");
+	int counter=1;
+	int x=500, y=100, width=80, height=50;
+	create_memory_view(main_root, x,y,width, height, "A1", counter);
+}
+void control::create_memory_view(node * ptr, int x, int y, int width, int height, string address, int &counter)
+{
+	if(ptr == NULL)
+	{
+		return ;
+	}
+	else
+	{
+		address = address.substr(0, address.size()-1);
+		counter++;
+		stringstream stream;
+		string str;
+		stream << address<<counter;
+		address=stream.str();
+		rectangle(x, y, x+width, y+height);
+		rectangle(x-30, y, x, y+height);
+		rectangle(x+width, y, x+width+30, y+height);
+		outtextxy(x+30, y-20, &address[0]);
+		outtextxy(x+30, y+20, &(ptr->name[0]));
+		//Creating Box containing Left child address
+		if(ptr->sub_left != NULL)
+		{
+			string temp_str=address.c_str();
+			temp_str = temp_str.substr(0, temp_str.size()-1);
+			int dumy=counter+1;
+			stringstream stream2;
+			stream2<<temp_str<<dumy;
+			string str2;
+			str2=stream2.str();
+			outtextxy(x-20, y+20, &str2[0]);
+		}
+		//Left Recursive Call
+		create_memory_view(ptr->sub_left, x-200, y+80, width, height, address, counter);
+		//Creating Box containing Right child address
+		if(ptr->sub_right != NULL)
+		{
+			string temp_str2=address.c_str();
+			temp_str2 = temp_str2.substr(0, temp_str2.size()-1);
+			int dumy2=counter+1;
+			stringstream stream3;
+			stream3<<temp_str2<<dumy2;
+			string str3;
+			str3=stream3.str();
+			outtextxy(x+width+10, y+20, &str3[0]);
+		}
+		//Right Recursive Call
+		create_memory_view(ptr->sub_right, x+150, y+100, width, height, address, counter);
+	}
+}
+void control::quiz()
+{
+	int score = 0;
+    int totalQuestions = 20; // Number of MCQs
+
+    Question quizQuestions[20] = {
+        {
+            "What type of tree is a Huffman tree?",
+            {"A. Specific type of binary tree", "B. Binary Search Tree", "C. AVL Tree", "D. Red-Black Tree"},
+            0 // Correct option index (A)
+        },
+        {
+            "Which property ensures the optimality of Huffman codes?",
+            {"A. Prefix property", "B. Suffix property", "C. Equidistant property", "D. Variable property"},
+            0 // Correct option index (A)
+        },
+        {
+            "How are Huffman codes represented in terms of code length?",
+            {"A. Variable-length codes", "B. Fixed-length codes", "C. Equal-length codes", "D. Incremental-length codes"},
+            0 // Correct option index (A)
+        },
+        {
+            "What is the primary criterion for constructing a Huffman tree?",
+            {"A. Frequency of characters", "B. Depth of the tree", "C. Number of nodes", "D. Height of the tree"},
+            0 // Correct option index (A)
+        },
+        {
+            "Which nodes represent individual characters in a Huffman tree?",
+            {"A. Leaf nodes", "B. Internal nodes", "C. Root nodes", "D. None of the above"},
+            0 // Correct option index (A)
+        },
+        {
+            "What happens to the code length as the frequency of a character increases in Huffman coding?",
+            {"A. Increases", "B. Decreases", "C. Remains constant", "D. Cannot be determined"},
+            1 // Correct option index (B)
+        },
+        {
+            "How are Huffman codes assigned to characters?",
+            {"A. Sequentially", "B. Based on frequency", "C. Alphabetically", "D. Randomly",},
+            1 // Correct option index (B)
+        },
+        {
+            "In Huffman coding, what is the expected result of characters with lower frequencies?",
+            {"A. Shorter codes", "B. Longer codes", "C. Equal-length codes", "D. No specific pattern"},
+            1 // Correct option index (B)
+        },
+        {
+            "Which algorithm constructs a Huffman tree?",
+            {"A. Breadth-First Search", "B. Greedy algorithm", "C. Depth-First Search", "D. Dijkstra's algorithm"},
+            1 // Correct option index (B)
+        },
+        {
+            "What is the purpose of using Huffman coding in data compression?",
+            {"A. To minimize compression time", "B. To maximize compression ratios", "C. To reduce compression quality", "D. To optimize compression for specific data types"},
+            1 // Correct option index (B)
+        },
+        {
+            "In Huffman coding, what is the main advantage of shorter codes for frequently used characters?",
+            {"A. Lesser memory usage", "B. Faster encoding", "C. Improved compression ratios", "D. Easier decoding"},
+            2 // Correct option index (C)
+        },
+        {
+            "Which step is NOT a part of Huffman coding algorithm?",
+            {"A. Constructing a frequency table", "B. Building a Huffman tree", "C. Balancing the tree", "D. Assigning codes to characters",},
+            2 // Correct option index (C)
+        },
+        {
+            "What happens if two characters have the same frequency in Huffman coding?",
+            {"A. Both characters are discarded", "B. One character is randomly assigned a code", "C. Their codes are concatenated", "D. Their codes are interchanged"},
+            2 // Correct option index (C)
+        },
+        {
+            "Which operation involves combining two nodes with the lowest frequencies in Huffman tree construction?",
+            {"A. Split", "B. Swap", "C. Merge", "D. Join"},
+            2 // Correct option index (C)
+        },
+        {
+            "What is the Huffman code for a character that appears most frequently?",
+            {"A. Longer code", "B. No code is assigned", "C. Shorter code", "D. Code is decided randomly"},
+            2 // Correct option index (C)
+        },
+        {
+            "Which data structure is commonly used to implement a priority queue in Huffman coding?",
+            {"A. Array", "B. Linked List", "C. Stack", "D. Heap"},
+            3 // Correct option index (D)
+        },
+        {
+            "Which operation reduces the average code length in Huffman coding?",
+            {"A. Splitting nodes", "B. Removing nodes", "C. Reordering nodes", "D. Merging nodes", },
+            3 // Correct option index (D)
+        },
+        {
+            "Which step ensures uniquely decodable codes in Huffman coding?",
+            {"A. Codes are assigned alphabetically", "B. Codes have equal lengths", "C. All codes start with '0'", "D. No code is a prefix of another code"},
+            3 // Correct option index (D)
+        },
+        {
+            "What is the primary application of Huffman coding in data transmission?",
+            {"A. Image compression", "B. Audio compression", "C. Video compression", "D. Text compression"},
+            3 // Correct option index (D)
+        },
+        {
+            "What is the primary aim of Huffman coding?",
+            {"A. Maximizing compression time", "B. Minimizing compression ratios", "C. Reducing compression quality", "D. Maximizing compression ratios"},
+            3 // Correct option index (D)
+        }
+// Add more questions..
+    };
+
+    cout << "Welcome to the Huffman Data Structure MCQs Quiz!\n" << endl;
+
+    for (int i = 0; i < totalQuestions; ++i) {
+        cout << "Question " << i + 1 << ": " << quizQuestions[i].question << endl;
+
+        for (int j = 0; j < 4; ++j) {
+            cout << quizQuestions[i].options[j] << endl;
+        }
+
+        cout << "Enter your choice (A/B/C/D): ";
+        char userChoice;
+        cin >> userChoice;
+        cin.ignore();
+
+        int userOption = toupper(userChoice) - 'A'; // Convert user choice to index (0, 1, 2, 3)
+
+        if (userOption >= 0 && userOption < 4) {
+            if (userOption == quizQuestions[i].correctOption) {
+                cout << "Correct!\n" << endl;
+                score++;
+            } else {
+                cout << "Incorrect. The correct answer is: "
+                     << quizQuestions[i].options[quizQuestions[i].correctOption] << "\n"
+                     << endl;
+            }
+        } else {
+            cout << "Invalid choice. Skipping to the next question.\n" << endl;
+        }
+    }
+
+    // Display quiz results
+    cout << "Quiz Completed!\n";
+    cout << "You scored " << score << " out of " << totalQuestions << " correct.\n";
+}
+void control::pros_and_cons() {
+    cout<< "Advantages of Huffman Data Structure:\n";
+    cout<< "1. Efficient data compression: Provides good compression ratios for various data types.\n";
+    cout<< "2. Simple implementation: Relatively easy to implement and understand.\n";
+    cout<< "3. Minimal loss of data: Huffman encoding is a lossless compression technique.\n";
+    cout<< "4. Variable-length encoding: Allows encoding with shorter codes for more frequent symbols.\n\n";
+
+    cout<< "Disadvantages of Huffman Data Structure:\n";
+    cout<< "1. Encoding and decoding overhead: Huffman encoding/decoding can be computationally expensive.\n";
+    cout<< "2. Need for storage of encoding tree: Additional space required to store the Huffman tree.\n";
+    cout<< "3. Lack of adaptability: Once the tree is built, it remains static for encoding/decoding.\n";
+}
+
+void control::uses() {
+    cout<< "\nUses of Huffman Data Structure:\n";
+    cout<< "1. Data compression: Huffman encoding is used in file compression algorithms.\n";
+    cout<< "2. Network transmission: Efficient data encoding for network transmission.\n";
+    cout<< "3. Lossless data compression: Used in various applications to compress data without loss.\n";
+    cout<< "4. File storage: Compression of files for efficient storage.\n";
+    cout<< "5. Encoding characters: Creating variable-length codes for characters in text.\n";
+    cout<< "6. Image Compression: JPEG format utilizes Huffman encoding for smaller image sizes.\n";
+    cout<< "7. Text Compression in Databases: Enhances query performance by compressing text data.\n";
+    cout<< "8. Embedded Systems: Optimizes storage and transmission in constrained environments.\n";
+    cout<< "9. Voice Encoding: Enables efficient compression of voice data in telecommunication.\n";
+    cout<< "10. Genetic Sequencing: Huffman coding used in bioinformatics for DNA compression.\n";
+
+}
+void control::menu()
+{
+	int ch=0;
+	while(ch != -1)
+	{
+		cout<<"===============================================\n1. Introduction\n2. Demonstration\n3. Memory View\n4. Quiz\n5. Advantages/Disadvantages\n6. Uses\n====To Exit: -1====\n:>";
+		cin>>ch;
+		switch(ch)
+		{
+			case 1:
+				window1=initwindow(getmaxwidth(),getmaxheight()-10);
+				introduction();
+				closegraph();
+				break;
+			case 2:
+				main_root=NULL;
+				temp_root=NULL;
+				start=NULL;
+				window1=initwindow(getmaxwidth(),getmaxheight()-10);
+				make_huffman_tree();
+				getch();
+				closegraph();
+				break;
+			case 3:
+				window1=initwindow(getmaxwidth(),getmaxheight()-10);
+				memory_view();
+				getch();
+				closegraph();
+				break;
+			case 4:
+				quiz();
+				break;
+			case 5:
+				pros_and_cons();
+				break;
+			case 6:
+				uses();
+				break;
+			case -1:
+				break;
+			default:
+				cout<<"-----------------Invalid Choice-----------------"<<endl;
+		}
+	}
+}
+void control::changes()
+{
+	changes_structure storage[20];
+	string a;
+	string b="";
+	cout<<"Enter the data: "<<endl;
+	getline(cin, a);
+	string temp="";
+	int sum=0;
+	string concatenated_string="";
+	int storage_counter=0;
+	for(int i=0; i<a.size(); i++)
+	{
+		if(i!=0 && i%5 == 0)
+		{
+			storage[storage_counter].my_string=b;
+			storage[storage_counter].sum=sum;
+			//Convert sum to string and add in concatenated_string
+			stringstream stream;
+			string str;
+			stream <<sum;
+			concatenated_string +=stream.str();
+			storage_counter++;
+			//cout<<b<<endl;
+			//cout<<"Sum: "<<sum<<endl;
+			sum=0;
+			b="";
+		}
+		b.push_back(a[i]);
+		sum=sum+int(a[i]);
+	}
+	//Last Operation
+	storage[storage_counter].my_string=b;
+	storage[storage_counter].sum=sum;
+	//Convert sum to string and add in concatenated_string
+	stringstream stream;
+	string str;
+	stream <<sum;
+	concatenated_string +=stream.str();
+	storage_counter++;
+	//cout<<b<<endl;
+	//cout<<"Sum: "<<sum<<endl;
+	sum=0;
+	b="";
+	cout<<"Concatenated String: "<<concatenated_string<<endl;
+	//Decoding the concatenated String
+	for(int i=0; i<concatenated_string.size(); i++)
+	{
+		if(i!=0 && i%3 == 0)
+		{
+			//Check for matching sum
+			for(int j=0; j<storage_counter; j++)
+			{
+				if(sum == storage[j].sum)
+				{
+					cout<<sum<<" : "<<storage[j].my_string<<endl;
+					sum=0;
+					break;
+				}
+			}
+			
+		}
+		sum=sum*10+(concatenated_string[i]-'0');
+	}
+	for(int j=0; j<storage_counter; j++)
+	{
+		if(sum == storage[j].sum)
+		{
+			cout<<sum<<" : "<<storage[j].my_string<<endl;
+			sum=0;
+			break;
+		}
 	}
 }

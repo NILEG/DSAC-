@@ -8,10 +8,20 @@ struct node
 	string name;
 	node *parent=NULL, *left=NULL, *right=NULL, *sub_left=NULL, *sub_right=NULL;
 };
+struct Question {
+    string question;
+    string options[4];
+    int correctOption;
+};
 struct KeyLoc
 {
 	int key, x1, x2, y1, y2;
 	KeyLoc *next=NULL;
+};
+struct changes_structure
+{
+	int sum=0;
+	string my_string;
 };
 struct control
 {
@@ -49,5 +59,12 @@ struct control
 	void introduction();
 	void next_btn();
 	void get_input();
+	void menu();
+	void memory_view();
+	void quiz();
+	void pros_and_cons();
+	void uses();
+	void changes();
+	void create_memory_view(node * ptr, int x, int y, int width, int height, string address, int &counter);
 };
 #endif
